@@ -23,8 +23,6 @@ class FiguresController < ApplicationController
 
     @figure.save
 
-    puts Figure.all.count
-
     redirect "/figures/#{@figure.id}"
   end
 
