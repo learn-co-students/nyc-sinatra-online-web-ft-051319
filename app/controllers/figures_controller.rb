@@ -8,22 +8,24 @@ class FiguresController < ApplicationController
 
   post '/figures' do
     @figure=Figure.create(params[:figure])
-    @figure.title_ids=params[:figure][:title_ids]
-    @figure.landmark_ids=params[:figure][:landmark_ids]
-    @figure.save
-
-    # binding.pry
+    # @figure.title_ids=params[:figure][:title_ids]
+    # @figure.landmark_ids=params[:figure][:landmark_ids]
 
     if !params[:title][:name].empty?
-      @title=Title.find_or_create_by(name: params[:title][:name])
+      @title=Title.create(params[:title])
       @figure.titles<<@title
     end
 
     if !params[:landmark][:name].empty?
-      @landmark=Landmark.find_or_create_by(name: params[:landmark][:name])
+      @landmark=Landmark.create(params[:landmark])
       @figure.landmarks<<@landmark
     end
-  redirect '/figures'
+
+    @figure.save
+
+    puts Figure.all.count
+
+    redirect "/figures/#{@figure.id}"
   end
 
   get '/figures' do
